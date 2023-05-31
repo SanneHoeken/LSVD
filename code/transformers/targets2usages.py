@@ -2,6 +2,24 @@ import torch, pickle, json, os
 from transformers import AutoModel
 from tqdm import tqdm
 
+class ContextEncoder(torch.nn.Module):
+    def __init__(self, encoder_name):
+        super(ContextEncoder, self).__init__()
+        self.context_encoder = AutoModel.from_pretrained(encoder_name, output_hidden_states=True)
+
+    def forward(self, input_ids):
+        context_output = self.context_encoder(input_ids)
+        return context_output
+
+class BiEncoderModel(torch.nn.Module):
+    def __init__(self, encoder_name):
+        super(BiEncoderModel, self).__init__()
+        self.context_encoder = ContextEncoder(encoder_name)
+
+    def context_forward(self, context_input):
+        return self.context_encoder.forward(context_input)
+
+
 def find_target_mentions(post2encoding, target2encoding):
     
     target2mentions = {t : {'post_ids': [], 'target_idx': [], 'embeddings': []} for t in target2encoding}
@@ -18,10 +36,14 @@ def find_target_mentions(post2encoding, target2encoding):
     return target2mentions
 
 
-def extract_representations(post2encoding, target2mentions, model_name, layer_selection):                    
+def extract_representations(post2encoding, target2mentions, model_name, layer_selection, biencoder, biencoder_path):                    
     
         # load model
-        model = AutoModel.from_pretrained(model_name, output_hidden_states=True)
+        if biencoder:
+            model = BiEncoderModel(model_name)
+            model.load_state_dict(torch.load(biencoder_path), strict=False)
+        else:
+            model = AutoModel.from_pretrained(model_name, output_hidden_states=True)
         model.eval()
 
         # iterate over all post mentions of all target words
@@ -31,7 +53,10 @@ def extract_representations(post2encoding, target2mentions, model_name, layer_se
                 
                 # feed post encodings to the model    
                 input_ids = torch.tensor([post2encoding[post_id]])
-                encoded_layers = model(input_ids)[-1]
+                if biencoder:
+                    encoded_layers = model.context_forward(input_ids)[-1]
+                else:
+                    encoded_layers = model(input_ids)[-1]
                 
                 # extract selection of hidden layer(s)
                 if type(layer_selection) == int:
@@ -58,7 +83,7 @@ def extract_representations(post2encoding, target2mentions, model_name, layer_se
         
 
 def main(post2encoding_path, target2encoding_path, target2usage_path, model_name, 
-         layer_selection='all', find=True, extract=True):
+         layer_selection='all', find=True, extract=True, biencoder=False, biencoder_path=None):
      
     # get encoded posts
     with open(post2encoding_path, 'r') as infile:
@@ -80,7 +105,8 @@ def main(post2encoding_path, target2encoding_path, target2usage_path, model_name
 
     # extract representations of target words mentions in posts
     if extract:
-        target2vectors = extract_representations(post2encoding, target2mentions, model_name, layer_selection)
+        target2vectors = extract_representations(post2encoding, target2mentions, model_name, 
+                                                 layer_selection, biencoder, biencoder_path)
         with open(target2usage_path, 'wb') as outfile:
             pickle.dump(target2vectors, outfile)
     
@@ -88,19 +114,24 @@ def main(post2encoding_path, target2encoding_path, target2usage_path, model_name
 if __name__ == '__main__':
 
     #cs = ['HillaryC', 'TheDonald1', 'TheDonald2', 'RandomR']
-    cs = ['ccoha1', 'ccoha2']
-    model_name = '../../output/models/bert-base-uncased-FT_ccoha'
+    #cs = ['ccoha1', 'ccoha2']
+    cs = ['PS', 'FD1', 'FD2']
+
+    model_name = 'xlm-roberta-base'
     layer_selection = 'all'
     find = True
     extract = True
     
+    biencoder = True
+    biencoder_path = '../../output/models/biencoder_xlmr.ckpt'
+    
     for c in cs:
         print(c)
-        post2encoding_path = f'../../output/data/bert-base-uncased-PT/{c}_post2encoding.json'
-        target2encoding_path = f'../../output/data/bert-base-uncased-PT/ccoha_target2encoding.json'
-        target2usage_path = f'../../output/data/bert-base-uncased-FT_ccoha/{c}_targets2usages'
+        post2encoding_path = f'../../output/data/xlm-roberta-base-PT/{c}_post2encoding.json'
+        target2encoding_path = f'../../output/data/xlm-roberta-base-PT/NLtarget2encoding.json'
+        target2usage_path = f'../../output/data/xlm-roberta-base-FT_WSD/{c}_targets2usages'
         
-
         main(post2encoding_path, target2encoding_path, target2usage_path, model_name, 
-            layer_selection=layer_selection, find=find, extract=extract)
+            layer_selection=layer_selection, find=find, extract=extract, 
+            biencoder=biencoder, biencoder_path=biencoder_path)
     
