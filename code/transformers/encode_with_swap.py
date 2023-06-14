@@ -26,10 +26,10 @@ def main(post2encoding_path, output_path, swap, tokenizer_name):
 
 if __name__ == '__main__':
 
-    post2encoding_path = '../../output/data/bert-base-dutch-cased-PT/FD1_post2encoding.json'
-    output_path = '../../output/data/bert-base-dutch-cased-PT/MNP-FD1_post2encoding.json'
-    swap = ('klimaat', 'liberaal') # the first will be replaced by the second
-    tokenizer_name = 'GroNLP/bert-base-dutch-cased'
+    post2encoding_path = '../../output/data/bert-base-uncased-PT/TheDonald1_post2encoding.json'
+    output_path = '../../output/data/bert-base-uncased-PT/MNP-TheDonald1_post2encoding.json'
+    swap = ('guns', 'taxes') # the first will be replaced by the second
+    tokenizer_name = 'bert-base-uncased'
     
     main(post2encoding_path, output_path, swap, tokenizer_name)
         

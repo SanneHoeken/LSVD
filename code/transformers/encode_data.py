@@ -55,10 +55,10 @@ def main(input_path, output_path, model_name, datatype, lower=False, reddit=Fals
 
 if __name__ == '__main__':
     
-    input_path = '../../../../Data/SemEval2020/ulscd_eng/targets.txt'
-    output_path = '../../output/data/bert-base-uncased-PT/ccoha_target2encoding.json'
-    model_name = 'bert-base-uncased'
-    datatype = 'targets' # 'posts' or 'targets'
+    input_path = '../../../../Data/SemEval2020/ulscd_eng/ccoha2.csv'
+    output_path = '../../output/data/xlm-roberta-base-PT/ccoha2_post2encoding.json'
+    model_name = 'xlm-roberta-base'
+    datatype = 'posts' # 'posts' or 'targets'
     
-    main(input_path, output_path, model_name, datatype, lower=True, reddit=False)
+    main(input_path, output_path, model_name, datatype, lower=False, reddit=False)
     

@@ -30,9 +30,9 @@ def main(targets_path, sgns_path1, sgns_path2, output_path):
 
 if __name__ == '__main__':
     
-    targets_path = '../../../../Data/SemEval2020/ulscd_eng/targets.txt'
-    c1 = 'ccoha1'
-    c2 = 'ccoha2'
+    targets_path = '../../../../Data/Reddit/target_words.txt'
+    c1 = 'TheDonald1'
+    c2 = 'TheDonald2'
     sgns_path1 = f'../../output/data/{c1}4baselines/sgns-{c2}aligned'
     sgns_path2 = f'../../output/data/{c2}4baselines/sgns-{c1}aligned'
     

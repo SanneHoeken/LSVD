@@ -1,5 +1,5 @@
 import torch, pickle, json, os
-from transformers import AutoModel
+from transformers import AutoModel, AutoModelForSequenceClassification
 from tqdm import tqdm
 
 class ContextEncoder(torch.nn.Module):
@@ -36,12 +36,15 @@ def find_target_mentions(post2encoding, target2encoding):
     return target2mentions
 
 
-def extract_representations(post2encoding, target2mentions, model_name, layer_selection, biencoder, biencoder_path):                    
+def extract_representations(post2encoding, target2mentions, model_name, 
+                            layer_selection, wsd_biencoder_path, sent_class):                    
     
         # load model
-        if biencoder:
+        if wsd_biencoder_path:
             model = BiEncoderModel(model_name)
-            model.load_state_dict(torch.load(biencoder_path), strict=False)
+            model.load_state_dict(torch.load(wsd_biencoder_path, map_location=torch.device('cpu')), strict=False)
+        elif sent_class:
+            model = AutoModelForSequenceClassification.from_pretrained(model_name, output_hidden_states=True)
         else:
             model = AutoModel.from_pretrained(model_name, output_hidden_states=True)
         model.eval()
@@ -53,7 +56,7 @@ def extract_representations(post2encoding, target2mentions, model_name, layer_se
                 
                 # feed post encodings to the model    
                 input_ids = torch.tensor([post2encoding[post_id]])
-                if biencoder:
+                if wsd_biencoder_path:
                     encoded_layers = model.context_forward(input_ids)[-1]
                 else:
                     encoded_layers = model(input_ids)[-1]
@@ -83,7 +86,8 @@ def extract_representations(post2encoding, target2mentions, model_name, layer_se
         
 
 def main(post2encoding_path, target2encoding_path, target2usage_path, model_name, 
-         layer_selection='all', find=True, extract=True, biencoder=False, biencoder_path=None):
+         layer_selection='all', wsd_biencoder_path=None, sent_class=False,
+         find=True, extract=True):
      
     # get encoded posts
     with open(post2encoding_path, 'r') as infile:
@@ -106,7 +110,7 @@ def main(post2encoding_path, target2encoding_path, target2usage_path, model_name
     # extract representations of target words mentions in posts
     if extract:
         target2vectors = extract_representations(post2encoding, target2mentions, model_name, 
-                                                 layer_selection, biencoder, biencoder_path)
+                                                 layer_selection, wsd_biencoder_path, sent_class)
         with open(target2usage_path, 'wb') as outfile:
             pickle.dump(target2vectors, outfile)
     
@@ -114,24 +118,24 @@ def main(post2encoding_path, target2encoding_path, target2usage_path, model_name
 if __name__ == '__main__':
 
     #cs = ['HillaryC', 'TheDonald1', 'TheDonald2', 'RandomR']
-    #cs = ['ccoha1', 'ccoha2']
-    cs = ['PS', 'FD1', 'FD2']
-
-    model_name = 'xlm-roberta-base'
+    cs = ['ccoha1', 'ccoha2']
+    #cs = ['PS', 'FD1', 'FD2']
+    
+    model_name = 'cardiffnlp/xlm-roberta-base-sentiment-multilingual' #or 'cardiffnlp/xlm-roberta-base-tweet-sentiment-en'
     layer_selection = 'all'
     find = True
     extract = True
     
-    biencoder = True
-    biencoder_path = '../../output/models/biencoder_xlmr.ckpt'
-    
+    wsd_biencoder_path = None #'../../output/models/biencoder_xlmr.ckpt'
+    sent_class = True
+
     for c in cs:
         print(c)
         post2encoding_path = f'../../output/data/xlm-roberta-base-PT/{c}_post2encoding.json'
-        target2encoding_path = f'../../output/data/xlm-roberta-base-PT/NLtarget2encoding.json'
-        target2usage_path = f'../../output/data/xlm-roberta-base-FT_WSD/{c}_targets2usages'
+        target2encoding_path = f'../../output/data/xlm-roberta-base-PT/ccoha_target2encoding.json'
+        target2usage_path = f'../../output/data/xlm-roberta-base-FT_SENT/{c}_targets2usages'
         
         main(post2encoding_path, target2encoding_path, target2usage_path, model_name, 
-            layer_selection=layer_selection, find=find, extract=extract, 
-            biencoder=biencoder, biencoder_path=biencoder_path)
+         layer_selection=layer_selection, wsd_biencoder_path=wsd_biencoder_path, 
+         sent_class=sent_class, find=find, extract=extract)
     

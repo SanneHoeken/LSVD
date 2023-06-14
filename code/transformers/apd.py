@@ -2,8 +2,6 @@ import pickle, torch, random
 from torchmetrics.functional import pairwise_cosine_similarity, pairwise_manhattan_distance
 from torch.nn.functional import normalize
 import pandas as pd
-from tqdm import tqdm
-
 
 def calculate_apd(vectors1, vectors2, l1_normalize, metric):
     
@@ -32,7 +30,7 @@ def apd(t2u_path1, t2u_path2, output_file, l1_normalize=False, metric='cosine', 
     with open(t2u_path2, 'rb') as infile2:
         target2usages2 = pickle.load(infile2)
 
-    #assert set(target2usages1.keys()) == set(target2usages2.keys())
+    assert set(target2usages1.keys()) == set(target2usages2.keys())
     
     results = []
     for target in target2usages1:
@@ -58,12 +56,10 @@ def apd(t2u_path1, t2u_path2, output_file, l1_normalize=False, metric='cosine', 
 if __name__ == '__main__':
     
     c1 = 'ccoha1'
-    c2 = 'ccoha2'
-    model = 'bert-base-uncased-PT'
-    t2u_path1 = f'../../output/data/{model}/{c1}_targets2usages'
-    t2u_path2 = f'../../output/data/{model}/{c2}_targets2usages'
-
-    for sample in tqdm(range(1, 151)):
-        for run in range(1, 11):
-            output_file = f'../../output/results/{model}/sampled_ccoha/{c1}_{c2}_APD_sample={sample}_run={run}.csv'
-            apd(t2u_path1, t2u_path2, output_file, sample=sample)
+    c2s = ['ccoha2']
+    model = 'xlm-roberta-base-FT_SENT'
+    for c2 in c2s:
+        t2u_path1 = f'../../output/data/{model}/{c1}_targets2usages'
+        t2u_path2 = f'../../output/data/{model}/{c2}_targets2usages'
+        output_file = f'../../output/results/{model}/{c1}_{c2}_APD.csv'
+        apd(t2u_path1, t2u_path2, output_file)
