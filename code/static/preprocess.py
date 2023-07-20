@@ -9,9 +9,6 @@ def preprocess(text, nlp):
     text = text.replace('  ', ' ').replace('  ', ' ').rstrip().lstrip()
     lemmas = [t.lemma_.lower() for t in nlp(text)]
 
-    # todo: split compounds? (https://github.com/dtuggener/CharSplit)
-    # todo: apply spell checker ? (https://pypi.org/project/pyspellchecker/)
-
     return lemmas
 
 
@@ -56,8 +53,8 @@ def main(input_path, output_dir, spacy_pipeline):
 
 if __name__ == '__main__':
 
-    input_path = '../../../../Data/SemEval2020/ulscd_eng/ccoha2_lemma.txt'
-    output_dir = '../../output/data/ccoha24baselines'
-    spacy_pipeline = "en_core_web_sm" #"nl_core_news_sm"
+    input_path = '[filepath to .txt-file with one sentence per line]'
+    output_dir = '[path to directory]'
+    spacy_pipeline = "en_core_web_sm" #"nl_core_news_sm" for Dutch 
     
     main(input_path, output_dir, spacy_pipeline)

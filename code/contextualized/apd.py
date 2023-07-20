@@ -55,11 +55,7 @@ def apd(t2u_path1, t2u_path2, output_file, l1_normalize=False, metric='cosine', 
 
 if __name__ == '__main__':
     
-    c1 = 'ccoha1'
-    c2s = ['ccoha2']
-    model = 'xlm-roberta-base-FT_SENT'
-    for c2 in c2s:
-        t2u_path1 = f'../../output/data/{model}/{c1}_targets2usages'
-        t2u_path2 = f'../../output/data/{model}/{c2}_targets2usages'
-        output_file = f'../../output/results/{model}/{c1}_{c2}_APD.csv'
-        apd(t2u_path1, t2u_path2, output_file)
+    t2u_path1 = '[path to pickle stored dictionary with usages]'
+    t2u_path2 = '[path to pickle stored dictionary with usages]'
+    output_file = '[path to csv-file]'
+    apd(t2u_path1, t2u_path2, output_file)

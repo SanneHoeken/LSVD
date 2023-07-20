@@ -90,8 +90,8 @@ def main(model_dir, output_dir, post2encoding_path, batch_size, epochs):
 if __name__ == '__main__':
     
     model_dir = "bert-base-uncased"
-    output_dir = "bert-base-uncased-FT_ccoha"
-    post2encoding_path = 'ccoha-all_post2encoding.json'
+    output_dir = "[path to directory for fine-tuned model]"
+    post2encoding_path = '[filepath to json-file that maps post ids to encodings]'
     batch_size = 8
     epochs = 3
 

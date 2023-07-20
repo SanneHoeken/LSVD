@@ -27,10 +27,7 @@ def inverse_overlap_coefficient(targets2subs_path1, targets2subs_path2, output_f
 
 if __name__ == '__main__':
     
-    c1 = 'FD1'
-    c2 = 'FD2'
-    model = 'bert-base-dutch-cased-PT'
-    t2s_path1 = f'../../output/results/{model}/{c1}_topk-substitutes.json'
-    t2s_path2 = f'../../output/results/{model}/{c2}_topk-substitutes.json'
-    output_file = f'../../output/results/{model}/{c1}_{c2}_IOC.csv'
+    t2s_path1 = '[path to json-file mapping targets to topk substitutes]'
+    t2s_path2 = '[path to json-file mapping targets to topk substitutes]'
+    output_file = '[path to csv-file]'
     inverse_overlap_coefficient(t2s_path1, t2s_path2, output_file)

@@ -21,12 +21,9 @@ def apd(t2u_path1, t2u_path2, target1, target2):
 
 if __name__ == '__main__':
     
-    c1 = 'MNP-FD1'
-    c2 = 'MNP-FD1'
-    model = 'bert-base-dutch-cased-FT_UNION'
-    t2u_path1 = f'../../output/data/{model}/{c1}_targets2usages'
-    t2u_path2 = f'../../output/data/{model}/{c2}_targets2usages'
-    target1 = 'liberaal'
-    target2 = 'liberaal'
+    t2u_path1 = '[path to pickle stored dictionary with usages]'
+    t2u_path2 = '[path to pickle stored dictionary with usages]' 
+    target1 = 'liberaal' # or other target word
+    target2 = 'liberaal' # or other target word
 
     apd(t2u_path1, t2u_path2, target1, target2)

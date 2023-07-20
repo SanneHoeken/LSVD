@@ -30,12 +30,10 @@ def main(targets_path, sgns_path1, sgns_path2, output_path):
 
 if __name__ == '__main__':
     
-    targets_path = '../../../../Data/Reddit/target_words.txt'
-    c1 = 'TheDonald1'
-    c2 = 'TheDonald2'
-    sgns_path1 = f'../../output/data/{c1}4baselines/sgns-{c2}aligned'
-    sgns_path2 = f'../../output/data/{c2}4baselines/sgns-{c1}aligned'
+    targets_path = '[filepath to .txt file with one word per line]'
+    sgns_path1 = '[path to directory]' +'/sgns-aligned'
+    sgns_path2 = '[path to directory]' +'/sgns-aligned'
     
-    output_path = f'../../output/results/sgns/{c1}_{c2}_CD.csv'
+    output_path = '[filepath to .csv file]'
 
     main(targets_path, sgns_path1, sgns_path2, output_path)

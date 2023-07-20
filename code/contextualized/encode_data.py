@@ -55,10 +55,12 @@ def main(input_path, output_path, model_name, datatype, lower=False, reddit=Fals
 
 if __name__ == '__main__':
     
-    input_path = '../../../../Data/SemEval2020/ulscd_eng/ccoha2.csv'
-    output_path = '../../output/data/xlm-roberta-base-PT/ccoha2_post2encoding.json'
-    model_name = 'xlm-roberta-base'
-    datatype = 'posts' # 'posts' or 'targets'
+    input_path = '[path to csv-file with "text" and "id" columns or txt-file with one target word per line]'
+    output_path = '[filepath to json-file]'
+    model_name = '[name of model from HuggingFace transformers library]'
+    datatype = 'posts' # or 'targets'
+    reddit = False # or True
+    lower = False # or True
     
-    main(input_path, output_path, model_name, datatype, lower=False, reddit=False)
+    main(input_path, output_path, model_name, datatype, lower=lower, reddit=reddit)
     

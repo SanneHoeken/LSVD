@@ -186,13 +186,10 @@ def main(src_input, trg_input, src_output, trg_output):
 
     
 if __name__ == '__main__':
-
-    c1 = 'ccoha1'
-    c2 = 'ccoha2'
     
-    src_input = f'../../output/data/{c1}4baselines/sgns'
-    trg_input = f'../../output/data/{c2}4baselines/sgns'
-    src_output = f'../../output/data/{c1}4baselines/sgns-{c2}aligned'
-    trg_output = f'../../output/data/{c2}4baselines/sgns-{c1}aligned'
+    src_input = '[path to directory]' +'/sgns'
+    trg_input = '[path to directory]' +'/sgns'
+    src_output = '[path to directory]' +'/sgns-aligned'
+    trg_output = '[path to directory]' +'/sgns-aligned'
 
     main(src_input, trg_input, src_output, trg_output)

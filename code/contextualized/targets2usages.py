@@ -117,25 +117,20 @@ def main(post2encoding_path, target2encoding_path, target2usage_path, model_name
 
 if __name__ == '__main__':
 
-    #cs = ['HillaryC', 'TheDonald1', 'TheDonald2', 'RandomR']
-    cs = ['ccoha1', 'ccoha2']
-    #cs = ['PS', 'FD1', 'FD2']
-    
-    model_name = 'cardiffnlp/xlm-roberta-base-sentiment-multilingual' #or 'cardiffnlp/xlm-roberta-base-tweet-sentiment-en'
+   
+    model_name = '[name of model from HuggingFace transformers library] or path to model directory'
     layer_selection = 'all'
     find = True
     extract = True
     
-    wsd_biencoder_path = None #'../../output/models/biencoder_xlmr.ckpt'
-    sent_class = True
+    wsd_biencoder_path = None # or '[path to] biencoder_xlmr.ckpt' for WSD XLM-R
+    sent_class = False # or true for SENT XLM-R
 
-    for c in cs:
-        print(c)
-        post2encoding_path = f'../../output/data/xlm-roberta-base-PT/{c}_post2encoding.json'
-        target2encoding_path = f'../../output/data/xlm-roberta-base-PT/ccoha_target2encoding.json'
-        target2usage_path = f'../../output/data/xlm-roberta-base-FT_SENT/{c}_targets2usages'
-        
-        main(post2encoding_path, target2encoding_path, target2usage_path, model_name, 
-         layer_selection=layer_selection, wsd_biencoder_path=wsd_biencoder_path, 
-         sent_class=sent_class, find=find, extract=extract)
+    post2encoding_path = '[filepath to json-file that maps post ids to encodings]'
+    target2encoding_path = '[filepath to json-file that maps targets to encodings]'
+    target2usage_path = '[path to pickle dump dictionary with usages]'
+    
+    main(post2encoding_path, target2encoding_path, target2usage_path, model_name, 
+        layer_selection=layer_selection, wsd_biencoder_path=wsd_biencoder_path, 
+        sent_class=sent_class, find=find, extract=extract)
     

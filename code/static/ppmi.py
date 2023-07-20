@@ -82,12 +82,10 @@ if __name__ == '__main__':
     window_size = 10
     alpha = 0.75
     k = 5
+    
+    input_path = '[path to directory]' + '/data_preprocessed.txt'
+    vocab_path = '[path to directory]' + '/vocab.txt'
+    output_path = '[path to directory]' + '/ppmi.npz'
 
-    for c in ['ccoha1', 'ccoha2']:
-        print(c)
-        input_path = f'../../output/data/{c}4baselines/data_preprocessed.txt'
-        vocab_path = f'../../output/data/{c}4baselines/vocab.txt'
-        output_path = f'../../output/data/{c}4baselines/ppmi.npz' #.npz-file
-
-        main(output_path, input_path, vocab_path, window_size, alpha, k)
+    main(output_path, input_path, vocab_path, window_size, alpha, k)
 

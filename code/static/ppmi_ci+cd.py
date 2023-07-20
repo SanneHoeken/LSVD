@@ -46,14 +46,12 @@ def main(targets_path, ppmi_path1, ppmi_path2, vocab_path1, vocab_path2, output_
 
 if __name__ == '__main__':
     
-    targets_path = '../../../../Data/Reddit/target_words.txt'
-    c1 = 'TheDonald1'
-    c2 = 'HillaryC'
-    ppmi_path1 = f'../../output/data/{c1}4baselines/ppmi.npz'
-    ppmi_path2 = f'../../output/data/{c2}4baselines/ppmi.npz'
-    vocab_path1 = f'../../output/data/{c1}4baselines/vocab.txt'
-    vocab_path2 = f'../../output/data/{c2}4baselines/vocab.txt'
+    targets_path = '[filepath to .txt file with one word per line]'
+    ppmi_path1 = '[path to directory]' + '/ppmi.npz'
+    ppmi_path2 = '[path to directory]' + '/ppmi.npz'
+    vocab_path1 = '[path to directory]' + '/vocab.txt'
+    vocab_path2 = '[path to directory]' + '/vocab.txt'
     
-    output_path = f'../../output/results/ppmi/{c1}_{c2}_CD.csv'
+    output_path = '[filepath to .csv file]'
 
     main(targets_path, ppmi_path1, ppmi_path2, vocab_path1, vocab_path2, output_path)

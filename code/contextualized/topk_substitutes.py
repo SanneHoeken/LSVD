@@ -1,6 +1,7 @@
 import torch, json, pickle
 from transformers import AutoTokenizer, AutoModelForMaskedLM
 from collections import defaultdict
+from tqdm import tqdm
 
 def get_topk_substitutes(sent, target_idx, model, tokenizer, k):
 
@@ -34,8 +35,7 @@ def main(post2encoding_path, target2usage_path, tokenizer_name, model_name, outp
     model = AutoModelForMaskedLM.from_pretrained(model_name)
 
     substitutes = dict()
-    for t in target2mentions:
-        print(t)
+    for t in tqdm(target2mentions):
         substitutes[t] = defaultdict(int)
         for post_id, target_idx in zip(target2mentions[t]['post_ids'], target2mentions[t]['target_idx']):
             post = post2encoding[post_id]
@@ -49,23 +49,15 @@ def main(post2encoding_path, target2usage_path, tokenizer_name, model_name, outp
 
 if __name__ == '__main__':
 
-    """
-    tokenizer_name = 'GroNLP/bert-base-dutch-cased'
-    model_name = '../../output/models/bert-base-dutch-cased-FT_UNION'
-    for c in ['PS', 'FD1', 'FD2']:
-        post2encoding_path = f'../../output/data/bert-base-dutch-cased-PT/{c}_post2encoding.json'
-        target2usage_path = f'../../output/data/bert-base-dutch-cased-FT_UNION/{c}_targets2usages'
-        output_path = f'../../output/results/bert-base-dutch-cased-FT_UNION/{c}_topk-substitutes.json'
-        main(post2encoding_path, target2usage_path, tokenizer_name, model_name, output_path)
-    """
-    tokenizer_name = 'bert-base-uncased'
-    model_name = '../../output/models/bert-base-uncased-FT_RandRed'
+    
+    tokenizer_name = '[name of model from HuggingFace transformers library] or path to model directory'
+    model_name = '[name of model from HuggingFace transformers library] or path to model directory'
+    k = 10
 
-    for c in ['HillaryC', 'TheDonald1', 'TheDonald2']:
-        print(c)
-    #for c in ['ccoha1', 'ccoha2']:
-        post2encoding_path = f'../../output/data/bert-base-uncased-PT/{c}_post2encoding.json'
-        target2usage_path = f'../../output/data/bert-base-uncased-FT_RandomR/{c}_targets2usages'
-        output_path = f'../../output/results/bert-base-uncased-FT_RandomR/{c}_topk-substitutes.json'
-        main(post2encoding_path, target2usage_path, tokenizer_name, model_name, output_path)
+    post2encoding_path = '[filepath to json-file that maps post ids to encodings]'
+    target2usage_path = '[path to pickle stored dictionary with usages]'
+    output_path = '[filepath to json-file]'
+    
+    main(post2encoding_path, target2usage_path, tokenizer_name, model_name, output_path, k=k)
+    
     

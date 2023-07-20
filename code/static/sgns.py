@@ -32,9 +32,7 @@ if __name__ == '__main__':
     iters = 5
     min_count = 10
 
-    for c in ['ccoha1', 'ccoha2']:
-        print(c)
-        input_path = f'../../output/data/{c}4baselines/data_preprocessed.txt'
-        output_path = f'../../output/data/{c}4baselines/sgns'
-        
-        main(input_path, output_path, dim, k, window, iters, min_count)
+    input_path = '[path to directory]' + '/data_preprocessed.txt'
+    output_path = '[path to directory]' + '/sgns'
+    
+    main(input_path, output_path, dim, k, window, iters, min_count)

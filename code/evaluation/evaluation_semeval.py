@@ -16,6 +16,8 @@ method2results = {'BL_PPMI': f'../output/results/ppmi/{c1}_{c2}_CD.csv',
                   'MP_BERT_PT': f'../output/results/bert-base-uncased-PT/{c1}_{c2}_JSD.csv',
                   'MP_BERT_FT': f'../output/results/bert-base-uncased-FT_ccoha/{c1}_{c2}_JSD.csv'}
 
+#method2results = {'test': '../output/results/bert-base-uncased-PT/different_topk/ccoha1_ccoha2_JSD-k=20.csv'}
+
 # AGGREGRATE RESULTS
 all_results = []
 for method, file in method2results.items():
@@ -23,7 +25,7 @@ for method, file in method2results.items():
     for target, distance in zip(results_df['target'], results_df['distance']):
         all_results.append({'method': method, 'target': target, 'distance': distance})    
 all_results_df = pd.DataFrame(all_results)
-#all_results_df.to_csv(output_file, index=False)
+all_results_df.to_csv(output_file, index=False)
 
 # PERFORMANCE
 with open('../../../Data/SemEval2020/ulscd_eng/graded.txt', 'r') as infile:
@@ -47,4 +49,5 @@ for method, results in grouped:
     pearsonsr, p = pearsonr(preds, graded_gold)
     performance_results.append({'method': method, 'pearsonsr': pearsonsr, 'accuracy': accuracy})
 performance_results_df = pd.DataFrame(performance_results)
+#print(performance_results_df)
 performance_results_df.to_csv(output_file.replace('_results.csv', '_performance.csv'), index=False)

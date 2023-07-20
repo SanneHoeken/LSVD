@@ -26,10 +26,10 @@ def main(post2encoding_path, output_path, swap, tokenizer_name):
 
 if __name__ == '__main__':
 
-    post2encoding_path = '../../output/data/bert-base-uncased-PT/TheDonald1_post2encoding.json'
-    output_path = '../../output/data/bert-base-uncased-PT/MNP-TheDonald1_post2encoding.json'
+    post2encoding_path = '[filepath to json-file that maps post ids to encodings]'
+    output_path = '[filepath to json-file]'
     swap = ('guns', 'taxes') # the first will be replaced by the second
-    tokenizer_name = 'bert-base-uncased'
+    tokenizer_name = '[name of model from HuggingFace transformers library]'
     
     main(post2encoding_path, output_path, swap, tokenizer_name)
         
