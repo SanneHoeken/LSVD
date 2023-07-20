@@ -11,128 +11,144 @@ For each of the following scripts, set the parameters inside of the code first. 
 ```
 cd code/static
 ```
-PPMI 
-1. 
-    ```
-    preprocess.py
-    ```
+#### PPMI 
+
+1.
+```
+python3 preprocess.py
+```
 2. 
-    ```
-    ppmi.py
-    ```
+```
+python3 ppmi.py
+```
 3. 
-    ```
-    ppmi_ci+cd.py
-    ```
-SGNS 
+```
+python3 ppmi_ci+cd.py
+```
+#### SGNS 
+
 1. 
-    ```
-    preprocess.py
-    ```
+```
+python3 preprocess.py
+```
 2. 
-    ```
-    sgns.py
-    ```
+```
+python3 sgns.py
+```
 3. 
-    ```
-    op_align.py
-    ```
+```
+python3 op_align.py
+```
 4. 
-    ```
-    sgns_aligned_cd.py
-    ```
+```
+python3 sgns_aligned_cd.py
+```
 ### Contextualized representations
 ```
 cd code/contextualized
 ```
-Pipeline for BERT, XLM-R, and SENT XLM-R:
+#### Pipeline for BERT, XLM-R, and SENT XLM-R:
 
-1. 
-    ```
-    encode_data.py
-    ```
-    to execute both for target words and contexts
+1. to execute both for target words and contexts:
+```
+python3 encode_data.py
+```
 2. 
-    ```
-    targets2usages.py
-    ```
+```
+python3 targets2usages.py
+```
 3. 
-    ```
-    apd.py
-    ```
-Pipeline for D-BERT: 
-1. 
-    ```
-    encode_data.py
-    ```
-    to execute both for target words and contexts
+```
+python3 apd.py
+```
+#### Pipeline for D-BERT: 
+
+1. to execute both for target words and contexts
+```
+python3 encode_data.py
+```
 2. 
-    ```
-    finetune_mlm.py
-    ```
+```
+python3 finetune_mlm.py
+```
 3. 
-    ```
-    targets2usages.py
-    ```
+```
+python3 targets2usages.py
+```
 4. 
-    ```
-    apd.py
-    ```
-Pipeline for WSD XLM-R
-0. [to explain]
+```
+python3 apd.py
+```
+#### Pipeline for WSD XLM-R
 
-Masked target prediction (with BERT or DBERT)
-1. 
-    ```
-    encode_data.py
-    ```
+1. to execute both for target words and contexts
+```
+python3 encode_data.py
+```
+
 2. 
-    ```
-    targets2usages.py
-    ```
-3. 
-    ```
-    topk_substitutes.py
-    ```
-4. 
-    ```
-    jsd.py
-    ```
+[to explain]
 
-Evaluation of all systems 
+3. 
+```
+python3 targets2usages.py
+```
+4. 
+```
+python3 apd.py
+```
+#### Masked target prediction (with BERT or DBERT)
+
+1. to execute both for target words and contexts
+```
+python3 encode_data.py
+```
+2. 
+```
+python3 targets2usages.py
+```
+3. 
+```
+python3 topk_substitutes.py
+```
+4. 
+```
+python3 jsd.py
+```
+
+### Evaluation of all systems 
 ```
 cd code/evaluation
 ```
-on English use-case:
-1. 
-    ```
-    evaluation_english.py
-    ```
-on Dutch use-case:
-1. 
-    ```
-    evaluation_dutch.py
-    ```
-on SemEval-2020 test set:
-1. 
-    ```
-    evaluation_semeval.py
-    ```
 
-Manipulation experiments (with BERT or DBERT):
+on English use-case:
+```
+python3 evaluation_english.py
+```
+on Dutch use-case:
+```
+python3 evaluation_dutch.py
+```
+on SemEval-2020 test set:
+```
+python3 evaluation_semeval.py
+```
+
+### Manipulation experiments (with BERT or DBERT):
+
 1. 
-    ```
-    encode_data.py
-    ```
+```
+python3 encode_data.py
+```
 2. 
-    ```
-    encode_with_swap.py
-    ```
+```
+python3 encode_with_swap.py
+```
 3. 
-    ```
-    targets2usages.py
-    ```
+```
+python3 targets2usages.py
+```
 4. 
-    ```
-    apd_custom.py
-    ```
+```
+python3 apd_custom.py
+```
